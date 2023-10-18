@@ -3,8 +3,6 @@ GitHub Live Repository Star Count Tool,Just paste any public repository URL...
 
 ## Please feel free to share any updates or errors.
 
-## I searched for a Realtime Live Repository Star Count Tool on Github, but could not find one. So, I created it.
-
 Search here:
 
 https://yashawanthtechprojects.on.drv.tw/GitHub/star.html
