@@ -1,5 +1,5 @@
-# GitHub-Live-Repository-Star-Count
-GitHub Live Repository Star Count Tool,Just paste any public repository URL...
+# GitHub-Live-Repository-Fork-And-Star-Count
+GitHub Live Repository Fork And Star Count Tool,Just paste any public repository URL...
 
 ## Please feel free to share any updates or errors.
 
