@@ -1,5 +1,172 @@
 <!-- Copying the code is easy, but when you create it, you have to become busy -->
-
-For Source Code Open Link & Press Ctrl+U
-
-To view the source code of a webpage on Android, add view-source: before url
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- favicon  -->
+    <link rel="icon" href="https://github.com/favicon.ico" type="image/x-icon">
+    <style>
+        html, body {
+            overflow: hidden; 
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('https://wallpaperaccess.com/full/1567770.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            background-color: #f2f2f2;
+            font-size: 16px;
+            color: #ffffff;
+            margin: 0; 
+        }
+        .container {
+            text-align: center; 
+            margin-top: 50px; 
+        }
+        .target-cursor {
+            width: 20px;
+            height: 20px;
+            background-color: transparent;
+            border: 2px solid #333;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: moveCursor 0.3s infinite alternate;
+        }
+ 
+        @keyframes moveCursor {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0.5;
+            }
+        }
+        #repoUrl {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #0074D9;
+            border-radius: 4px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        #submitButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0074D9;
+            color: #fff;
+            border: none;
+            border-radius:22px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #submitButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <title>GitHub Live Repo Fork & Star Count</title>
+</head>
+<body>
+    <div class="target-cursor"></div>
+    <p align="center">
+        <b><img src="https://readme-typing-svg.herokuapp.com?font=Montserrat&size=20&duration=5001&color=8B0000&vCenter=true&center=true&width=460&lines=WELCOME+TO+GITHUB+LIVE;+REPOSITORIES+FORK+&;+STAR+COUNT;HAPPY+SEARCHING....!"></b>
+    </p>
+    <br>
+    <div class="container">
+        <button style="background-color: white; padding: 10px 20px; margin-right: 10px;">
+            <a href="mailto:yashwanth6678@gmail.com" style="color: black; text-decoration: none; font-size: 18px; font-weight: bold;">Contact Me</a>
+        </button>
+        <button style="background-color: white; padding: 10px 20px; margin-left: 10px;">
+            <a href="https://github.com/yashu1wwww" style="color: black; text-decoration: none; font-size: 18px; font-weight: bold;">GitHub Account</a>
+        </button>
+    </div>
+    <div class="container" style="margin-top: 20px;">
+        <button style="background-color: white; padding: 10px 20px; margin-right: 10px;">
+            <a href="https://yashawanthtechprojects.on.drv.tw/web.html" style="color: black; text-decoration: none; font-size: 18px; font-weight: bold;">Web Development Projects</a>
+        </button>
+    </div>
+    <div class="container">
+        <div class="outer-black-box">
+            <button style="background-color: #9dc9b9; padding: 10px 20px; margin-right: 10px;">
+                <a style="color: black; text-decoration: none; font-size: 14px; font-weight: bold;">GITHUB LIVE REPO FORK & STAR COUNT</a>
+            </button>
+        </div>
+        <br><br>
+        <input type="text" id="repoUrl" placeholder="Paste GitHub Repository URL.." autocomplete="off">
+        <br><br>
+        <button id="submitButton">SEARCH</button>
+        <br><br>
+        <div id="result"></div>
+    </div>
+    <div class="container" style="margin-top: 20px;">
+        <button style="background-color: black; padding: 10px 20px; margin-right: 10px;">
+            <a style="color: white; text-decoration: none; font-size: 18px; font-weight: bold;">© ® Developed By Yashawanth R</a>
+        </button>
+    </div>
+    <script>
+        // Custom cursor
+        const targetCursor = document.querySelector('.target-cursor');
+        document.addEventListener('mousemove', (e) => {
+            targetCursor.style.left = e.clientX + 'px';
+            targetCursor.style.top = e.clientY + 'px';
+        });
+ 
+        // Event listeners for form submission
+        document.getElementById('submitButton').addEventListener('click', submitForm);
+        document.getElementById('repoUrl').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                submitForm();
+            }
+        });
+ 
+        // Function to handle form submission
+        function submitForm() {
+            const repoUrl = document.getElementById('repoUrl').value;
+            if (isValidGitHubURL(repoUrl)) {
+                trackForksAndStars(repoUrl);
+            } else {
+                document.getElementById('result').innerHTML = '<span style="font-weight: bold; color:red;">Please Paste Only GitHub Repository URL</span>';
+            }
+        }
+ 
+        // Function to validate GitHub URL
+        function isValidGitHubURL(url) {
+            const githubUrlPattern = /^https:\/\/github.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+$/;
+            return githubUrlPattern.test(url);
+        }
+ 
+        async function trackForksAndStars(repoUrl) {
+            const apiUrl = `https://api.github.com/repos${new URL(repoUrl).pathname}`;
+ 
+            try {
+                const response = await fetch(apiUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    const forkCount = data.forks_count;
+                    const starCount = data.stargazers_count;
+ 
+                    document.getElementById('result').innerHTML = `
+                        <span style="font-weight: bold; color: red;">FORKS: ${forkCount}</span><br><br>
+                        <span style="font-weight: bold; color: red;">STARS: ${starCount}</span>
+                    `;
+                } else {
+                    document.getElementById('result').innerHTML = '<span style="font-weight: bold; color: black;">Wrong Repo Url Not Acceptable</span>';
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('result').innerHTML = '<span style="font-weight: bold; color: black;">Wrong Repo Url Not Acceptable</span>';
+            }
+        }
+    </script>
+</body>
+</html>
